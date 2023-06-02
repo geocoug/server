@@ -12,6 +12,7 @@ services:
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - /home/cgrant/github/geocoug.github.io:/srv/geocoug
+      - /home/cgrant/github/toolkit/docs:/srv/toolkit
       - caddy_data:/data
       - caddy_config:/config
 
@@ -28,7 +29,10 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql
     healthcheck:
-      test: [ "exit", "0" ]
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
 
   pg_backup:
     image: kartoza/pg-backup:15-3.3
