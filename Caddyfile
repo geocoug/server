@@ -1,0 +1,40 @@
+{
+	# Global options block
+	# Email key for lets encrypt
+	email geocoug@gmail.com
+	# Optional staging lets encrypt for testing. Comment out for production.
+	# acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+}
+
+geocoug.com {
+  root * /srv/geocoug
+  file_server
+  header {
+    # disable clients from sniffing the media type
+    X-Content-Type-Options nosniff
+    # enable HSTS
+    Strict-Transport-Security max-age=63072000;
+    # detect reflected cross-site scripting (XSS) attacks
+    X-XSS-Protection "1; mode=block;"
+    # clickjacking protection
+    X-Frame-Options SAMEORIGIN
+    # keep referrer data off of HTTP connections
+    Referrer-Policy no-referrer
+  }
+}
+
+tileserv.geocoug.com {
+  reverse_proxy pg_tileserv:7800
+  header {
+    # disable clients from sniffing the media type
+    X-Content-Type-Options nosniff
+    # enable HSTS
+    Strict-Transport-Security max-age=63072000;
+    # detect reflected cross-site scripting (XSS) attacks
+    X-XSS-Protection "1; mode=block;"
+    # clickjacking protection
+    X-Frame-Options SAMEORIGIN
+    # keep referrer data off of HTTP connections
+    Referrer-Policy no-referrer
+  }
+}
