@@ -59,6 +59,14 @@ services:
       - 7800:7800
     restart: always
 
+  python-app:
+    build: ./dockerfiles/python
+    volumes:
+      - .:/usr/local/app
+    # depends_on:
+    #   - caddy
+    # restart: always
+
 volumes:
   pg_data:
   pg_backups:
