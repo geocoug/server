@@ -2,21 +2,33 @@
 
 My personal server configuration.
 
-## Environment Variables
-
-```ini
-POSTGRES_DBNAME=
-POSTGRES_USER=
-POSTGRES_PASSWORD=
-```
-
 ## Setup
 
+1. Clone the repository
+
+    ```sh
+    git clone https://github.com/geocoug/server.git && \
+    cd server
+    ```
+
+2. Create a `.env` file with the following keys:
+
+    ```txt
+    POSTGRES_DBNAME=
+    POSTGRES_USER=
+    POSTGRES_PASSWORD=
+    ```
+
+3. Start the services
+
+    ```sh
+    docker compose up -d
+    ```
+
+## Maintenance
+
+### Restart a Docker Service
+
 ```sh
-git clone https://github.com/geocoug/server.git && \
-cd server && \
-export POSTGRES_DBNAME="" && \
-export POSTGRES_USER="" && \
-export POSTGRES_PASSWORD="" && \
-docker compose up -d
+docker compose up -d --no-deps --build caddy
 ```
