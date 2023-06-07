@@ -7,7 +7,7 @@
 }
 
 geocoug.com {
-  root * /srv/geocoug
+  root * /srv/geocoug.github.io
   file_server
   header {
     # disable clients from sniffing the media type
@@ -24,7 +24,7 @@ geocoug.com {
 }
 
 toolkit.geocoug.com {
-  root * /srv/toolkit
+  root * /srv/toolkit/docs
   file_server
   header {
     # disable clients from sniffing the media type

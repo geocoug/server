@@ -11,8 +11,7 @@ services:
     restart: always
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
-      - /home/cgrant/github/geocoug.github.io:/srv/geocoug
-      - /home/cgrant/github/toolkit/docs:/srv/toolkit
+      - /home/cgrant/github:/srv
       - caddy_data:/data
       - caddy_config:/config
 
