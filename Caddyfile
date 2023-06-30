@@ -24,7 +24,7 @@ geocoug.com {
 }
 
 toolkit.geocoug.com {
-  root * /srv/toolkit/docs
+  root * /srv/toolkit/_site
   file_server
   header {
     # disable clients from sniffing the media type
