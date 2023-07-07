@@ -30,5 +30,5 @@ My personal server configuration.
 ### Restart a Docker Service
 
 ```sh
-docker compose up -d --no-deps --build caddy
+docker compose up -d --build --force-recreate --no-deps caddy
 ```
