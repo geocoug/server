@@ -72,3 +72,19 @@ tileserv.geocoug.com {
     Referrer-Policy no-referrer
   }
 }
+
+chat.geocoug.com {
+  reverse_proxy chatbot:8087
+  header {
+    # disable clients from sniffing the media type
+    X-Content-Type-Options nosniff
+    # enable HSTS
+    Strict-Transport-Security max-age=63072000;
+    # detect reflected cross-site scripting (XSS) attacks
+    X-XSS-Protection "1; mode=block;"
+    # clickjacking protection
+    X-Frame-Options SAMEORIGIN
+    # keep referrer data off of HTTP connections
+    Referrer-Policy no-referrer
+  }
+}

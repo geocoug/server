@@ -2,7 +2,6 @@
 version: "3.8"
 
 services:
-
   caddy:
     image: caddy:latest
     ports:
@@ -28,7 +27,7 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready" ]
+      test: ["CMD-SHELL", "pg_isready"]
       interval: 15s
       timeout: 5s
       retries: 5
@@ -58,13 +57,23 @@ services:
       - 7800:7800
     restart: always
 
-  python-app:
-    build: ./dockerfiles/python
+  chatbot:
+    build:
+      context: ../chatbot
+      dockerfile: Dockerfile
     volumes:
-      - .:/usr/local/app
-    # depends_on:
-    #   - caddy
-    # restart: always
+      - ../chatbot:/usr/local/app
+    ports:
+      - 8087:8087
+    restart: always
+
+  # python-app:
+  #   build: ./dockerfiles/python
+  #   volumes:
+  #     - .:/usr/local/app
+  #   depends_on:
+  #     - caddy
+  #   restart: always
 
 volumes:
   pg_data:
