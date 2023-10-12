@@ -36,14 +36,14 @@ services:
     image: kartoza/pg-backup:15-3.3
     restart: always
     volumes:
-      - pg_backups:/backups
+      - $SPACES_MOUNTPOINT/$SPACES_BUCKET/backups/postgres:/backups
     environment:
       POSTGRES_HOST: postgis
       POSTGRES_PORT: 5432
       POSTGRES_DBNAME: $POSTGRES_DBNAME
       POSTGRES_USER: $POSTGRES_USER
       POSTGRES_PASS: $POSTGRES_PASSWORD
-      REMOVE_BEFORE: 30
+      REMOVE_BEFORE: 90
     depends_on:
       - postgis
 
@@ -67,16 +67,7 @@ services:
       - 8087:8087
     restart: always
 
-  # python-app:
-  #   build: ./dockerfiles/python
-  #   volumes:
-  #     - .:/usr/local/app
-  #   depends_on:
-  #     - caddy
-  #   restart: always
-
 volumes:
   pg_data:
-  pg_backups:
   caddy_data:
   caddy_config:
