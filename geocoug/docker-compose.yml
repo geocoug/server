@@ -59,17 +59,17 @@ services:
 
   chatbot:
     build:
-      context: ../chatbot
+      context: ../../chatbot
       dockerfile: Dockerfile
     volumes:
-      - ../chatbot:/usr/local/app
+      - ../../chatbot:/usr/local/app
     ports:
       - 8087:8087
     restart: always
 
   django:
     build:
-      context: ../health
+      context: ../../health
       dockerfile: Dockerfile
     volumes:
       - ../../health:/usr/local/app
