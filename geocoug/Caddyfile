@@ -88,3 +88,36 @@ chat.geocoug.com {
     Referrer-Policy no-referrer
   }
 }
+
+health.geocoug.com {
+  reverse_proxy django:8086
+  header {
+    # disable clients from sniffing the media type
+    X-Content-Type-Options nosniff
+    # enable HSTS
+    Strict-Transport-Security max-age=63072000;
+    # detect reflected cross-site scripting (XSS) attacks
+    X-XSS-Protection "1; mode=block;"
+    # clickjacking protection
+    X-Frame-Options SAMEORIGIN
+    # keep referrer data off of HTTP connections
+    Referrer-Policy no-referrer
+  }
+}
+
+dev.geocoug.com {
+  root * /srv/observable-framework-intro/dist
+  file_server
+  header {
+    # disable clients from sniffing the media type
+    X-Content-Type-Options nosniff
+    # enable HSTS
+    Strict-Transport-Security max-age=63072000;
+    # detect reflected cross-site scripting (XSS) attacks
+    X-XSS-Protection "1; mode=block;"
+    # clickjacking protection
+    X-Frame-Options SAMEORIGIN
+    # keep referrer data off of HTTP connections
+    Referrer-Policy no-referrer
+  }
+}

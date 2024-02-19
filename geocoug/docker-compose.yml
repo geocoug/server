@@ -36,7 +36,7 @@ services:
     image: kartoza/pg-backup:15-3.3
     restart: always
     volumes:
-      - $SPACES_MOUNTPOINT/$SPACES_BUCKET/backups/postgres:/backups
+      - pg_backups:/backups
     environment:
       POSTGRES_HOST: postgis
       POSTGRES_PORT: 5432
@@ -67,7 +67,18 @@ services:
       - 8087:8087
     restart: always
 
+  django:
+    build:
+      context: ../health
+      dockerfile: Dockerfile
+    volumes:
+      - ../../health:/usr/local/app
+    ports:
+      - 8086:8086
+    restart: always
+
 volumes:
   pg_data:
+  pg_backups:
   caddy_data:
   caddy_config:

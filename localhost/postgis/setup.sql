@@ -1,0 +1,35 @@
+--
+-- PostgreSQL database cluster dump
+--
+
+SET default_transaction_read_only = off;
+
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+
+--
+-- Roles
+--
+
+CREATE ROLE auditor;
+ALTER ROLE auditor WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB NOLOGIN NOREPLICATION NOBYPASSRLS;
+CREATE ROLE cgrant;
+ALTER ROLE cgrant WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION BYPASSRLS PASSWORD 'SCRAM-SHA-256$4096:nGOibbCZzoNOPtJpKWqLIg==$D8gmPdZaoYLxMNKHTSMYnfN+BkHfaRod1JfAt5R0iOk=:Pru7qf9ln0aafnoN+vipd7j9E1pa2q0PvKhUdllcr/g=';
+CREATE ROLE django;
+ALTER ROLE django WITH SUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION NOBYPASSRLS PASSWORD 'SCRAM-SHA-256$4096:x9aG0z/vIPBcyznDNwwO7A==$1wjo7b8+zs/3d2WDL8HcWG1t7ZQyzFPrPbWIWZRuZv4=:bQxjGweHmM87LdY+OImwD/3HHWkDwotcDw8jwc6uFcA=';
+CREATE ROLE pgsql;
+ALTER ROLE pgsql WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB NOLOGIN NOREPLICATION NOBYPASSRLS;
+
+
+--
+-- Role memberships
+--
+
+GRANT pg_read_all_data TO django GRANTED BY postgres;
+
+
+
+
+--
+-- PostgreSQL database cluster dump complete
+--

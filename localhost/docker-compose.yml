@@ -1,0 +1,41 @@
+---
+version: "3"
+
+services:
+  postgis:
+    image: kartoza/postgis:16-3.4
+    ports:
+      - 5432:5432
+    restart: always
+    environment:
+      POSTGRES_DBNAME: $POSTGRES_DBNAME
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_MULTIPLE_EXTENSIONS: postgis,hstore,postgis_topology,postgis_raster,pgrouting,db_link,plpython3u
+    volumes:
+      - pg_data:/var/lib/postgresql
+      - ./postgis/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  pg_backup:
+    image: kartoza/pg-backup:16-3.4
+    restart: always
+    volumes:
+      - $POSTGRES_BACKUP_DIR:/backups
+      - $POSTGRES_BACKUP_DIR/pg_backup.log:/var/log/cron.log
+    environment:
+      POSTGRES_HOST: postgis
+      POSTGRES_PORT: 5432
+      POSTGRES_DBNAME: $POSTGRES_DBNAME
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASS: $POSTGRES_PASSWORD
+      REMOVE_BEFORE: 30
+    depends_on:
+      - postgis
+
+volumes:
+  pg_data:
