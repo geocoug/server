@@ -1,6 +1,4 @@
 ---
-version: "3"
-
 services:
   postgis:
     image: kartoza/postgis:16-3.4
@@ -37,18 +35,18 @@ services:
     depends_on:
       - postgis
 
-  postgrest:
-    image: postgrest/postgrest:latest
-    ports:
-      - 3000:3000
-    restart: always
-    environment:
-      PGRST_DB_URI: postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@postgis:5432/$POSTGRES_DBNAME
-      PGRST_DB_SCHEMA: public
-      PGRST_DB_ANON_ROLE: $POSTGRES_USER
-      PGRST_SERVER_PROXY_URI: http://postgis:5432
-    depends_on:
-      - postgis
+  # postgrest:
+  #   image: postgrest/postgrest:latest
+  #   ports:
+  #     - 3000:3000
+  #   restart: always
+  #   environment:
+  #     PGRST_DB_URI: postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@postgis:5432/$POSTGRES_DBNAME
+  #     PGRST_DB_SCHEMA: public
+  #     PGRST_DB_ANON_ROLE: $POSTGRES_USER
+  #     PGRST_SERVER_PROXY_URI: http://postgis:5432
+  #   depends_on:
+  #     - postgis
 
   swagger:
     image: swaggerapi/swagger-ui
