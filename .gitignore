@@ -2,3 +2,4 @@
 *logs*
 *cache*
 .venv/
+localhost/postgis/globals.sql

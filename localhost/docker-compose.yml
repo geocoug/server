@@ -1,7 +1,7 @@
 ---
 services:
   postgis:
-    image: kartoza/postgis:16-3.4
+    image: kartoza/postgis:17-3.5
     ports:
       - 5432:5432
     restart: always
@@ -12,7 +12,7 @@ services:
       POSTGRES_MULTIPLE_EXTENSIONS: postgis,hstore,postgis_topology,postgis_raster,pgrouting,db_link,plpython3u
     volumes:
       - pg_data:/var/lib/postgresql
-      - ./postgis/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+      - ./postgis/globals.sql:/docker-entrypoint-initdb.d/globals.sql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
       interval: 15s
@@ -20,18 +20,18 @@ services:
       retries: 5
 
   pg_backup:
-    image: kartoza/pg-backup:16-3.4
+    image: kartoza/pg-backup:17-3.5
     restart: always
     volumes:
-      - $POSTGRES_BACKUP_DIR:/backups
+      - $POSTGRES_BACKUP_DIR/backups:/backups
       - $POSTGRES_BACKUP_DIR/pg_backup.log:/var/log/cron.log
     environment:
       POSTGRES_HOST: postgis
       POSTGRES_PORT: 5432
-      POSTGRES_DBNAME: $POSTGRES_DBNAME
       POSTGRES_USER: $POSTGRES_USER
       POSTGRES_PASS: $POSTGRES_PASSWORD
       REMOVE_BEFORE: 30
+      CRON_SCHEDULE: "0 9 * * *" # every day at 9am
     depends_on:
       - postgis
 
@@ -48,14 +48,36 @@ services:
   #   depends_on:
   #     - postgis
 
-  swagger:
-    image: swaggerapi/swagger-ui
-    ports:
-      - "8080:8080"
-    expose:
-      - "8080"
-    environment:
-      API_URL: http://localhost:3000/
+  # swagger:
+  #   image: swaggerapi/swagger-ui
+  #   ports:
+  #     - "8080:8080"
+  #   expose:
+  #     - "8080"
+  #   environment:
+  #     API_URL: http://localhost:3000/
+
+  # maybe:
+  #   image: ghcr.io/maybe-finance/maybe:latest
+  #   volumes:
+  #     - maybe_data:/rails/storage
+  #   ports:
+  #     - 3001:3000
+  #   restart: unless-stopped
+  #   environment:
+  #     SELF_HOSTED: "true"
+  #     RAILS_FORCE_SSL: "false"
+  #     RAILS_ASSUME_SSL: "false"
+  #     GOOD_JOB_EXECUTION_MODE: async
+  #     SECRET_KEY_BASE: ${MAYBE_SECRET_KEY:?}
+  #     DB_HOST: postgis
+  #     POSTGRES_DB: ${MAYBE_DBNAME:?}
+  #     POSTGRES_USER: ${POSTGRES_USER:?}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?}
+  #   depends_on:
+  #     postgis:
+  #       condition: service_healthy
 
 volumes:
   pg_data:
+  maybe_data:
